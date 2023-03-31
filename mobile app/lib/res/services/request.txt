@@ -1,0 +1,36 @@
+Future<Map<String, dynamic>> _getData(String url, String query) async {
+    var request = http.MultipartRequest(
+      "GET",
+      Uri.parse(url.trim()),
+    );
+
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    request.headers.addAll(headers);
+  }
+
+  Future<Map<String, dynamic>> _sendData(String url, dynamic dataModel) async {
+    var request = http.MultipartRequest(
+      "POST",
+      Uri.parse(url.trim()),
+    );
+
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    request.headers.addAll(headers);
+
+    Map<String, dynamic> dataMap = dataModel.toJson();
+
+    dataMap.forEach((key, value) {
+      // if(value.runtimeType != String)///Do set a value because maybe int and foat or double can't be empty
+      request.fields[key] = (value == null) ? "" : value.toString();
+    });
+    var response = await http.Response.fromStream(await request.send());
+    try {
+      if (response.statusCode == 200) {
+        print(response.body);
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      return {"error": e};
+    }
+    return {"succes": false, "message": "Something append wrong in server"};
+  }

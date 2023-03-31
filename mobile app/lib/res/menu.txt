@@ -1,0 +1,20 @@
+bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: primaryDark,
+        currentIndex: currentNavBarIndex,
+        iconSize: 32,
+        selectedItemColor: primaryLight,
+        unselectedItemColor: primaryDark,
+        onTap: ((value) {
+          setState(() {
+            currentNavBarIndex = value;
+          });
+        }),
+        // ignore: prefer_const_literals_to_create_immutables
+        items: [
+          const BottomNavigationBarItem(icon: Icon(Icons.message), label: null),
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: null),
+          const BottomNavigationBarItem(icon: Icon(Icons.person), label: null),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: null),
+        ],
+      ),

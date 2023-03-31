@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <image width="35" height="35" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABHNCSVQICAgIfAhkiAAAAZJJREFUWIXtl+9xwjAMxeVOwAZNN2ADMkI3aDYhmzBC2aBhAhghnYBs8OsHnMOk/iM7gd71eJ9ysfz0ZMuSLfLEfwZwwo/jo4XUASEj6hLel0I965njXmSLAVYiskmYbazdMgAq4MMlBVrgnNiiEWdg6wZh+aoSIa7TT+CoFDHF0c53ReoFAV2hYy2+tEJSJ2Up1FPfxiOmF5FX9TKKHJzvVGK76I0xb8FRoMmIrGVyYrgkaZvB0cTEaLfoPRZyRlB1dO0s0RAhaKMEV57YCg3EVmVCtI4QqYoZly0LwVuhQxV4CPw/GGNCYzewdofAcJ8jptI4nIGslenvp0NERE5qy7/KGR9JQ7wZtkqe2Gk6kzpN6OtMlIjCOjPNmUoTtYjsgC3+CrwVkZ2S58bfEr2pc77rjHnfxpgqapGxVXOhE8797zNdUoQjpuK2P+0JP02Sju38EQOFV8+G33fgWBN1MeCUAS7J3WQLSYhcTSL1YU/B6yD7qWIbYJcw67QNdZYYi1Rv0feeJUA4oR8r5IlH4wd0gqi9OvJiPwAAAABJRU5ErkJggg==" id="img_1" />
+  </defs>
+  <use xlink:href="#img_1" fill="#FFFFFF" stroke="none" transform="scale(1.8285714 1.8285714)" />
+</svg>
