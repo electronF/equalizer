@@ -1,16 +1,12 @@
 import os
 import tornado.web
-import tornado.autoreload
-import asyncio
-
-from tornado_sqlalchemy import SQLAlchemy
 
 
-class MainHandler(tornado.web.RequestHandler):
+class OrganizationsProviderHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world")
     
-    def create():
+    def post():
         pass
 
     def update():

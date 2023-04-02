@@ -9,31 +9,29 @@ import settings
 
 PORT = 8888
 
+from webapi.providers.user import UserProviderHandler
+from webapi.providers.asset import AssetsProviderHandler
+from webapi.providers.botmessage import BotMessageProviderHandler
+from webapi.providers.search import SearchProviderHandler
+from webapi.providers.organization import OrganizationsProviderHandler
+
+
+
 def make_app():
     return tornado.web.Application(
         [
-            (r'.', IndexHandler),
-            (r'/editorial/*', EditorialHomeHandler),
-            (r'/editorial/home', EditorialHomeHandler),
-            (r'/editorial/article', ArticleWriterHandler),
-            (r"/images/profiles/(.*)", 
-                tornado.web.StaticFileHandler, 
-                {'path': os.path.join(".", "data", "users", "images", "profiles")}
-            ),
-            (r"/images/miniatures/(.*)", 
-                tornado.web.StaticFileHandler, 
-                {'path': os.path.join(".", "data", "users", "images", "miniatures")}
-            ),
-            (r"/images/covers/(.*)", 
-                tornado.web.StaticFileHandler, 
-                {'path': os.path.join(".", "data", "users", "images", "covers")}
-            ),
+            # (r'.', IndexHandler),
+            (r'/api/user/*', UserProviderHandler),
+            (r'/api/botmessage/*', BotMessageProviderHandler),
+            (r'/api/asset/*', AssetsProviderHandler),
+            (r'/api/search/*', SearchProviderHandler),
+            (r'/api/organization/*', OrganizationsProviderHandler)
         ],
         **(settings.SETTINGS))
 
 async def main():
     app = make_app()
-    app.listen(PORT)
+    app.listen(port=PORT, address="localhost")
     print(f"I am listen on port: {PORT}")
 
     shutdown_event = asyncio.Event()

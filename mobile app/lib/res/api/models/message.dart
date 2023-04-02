@@ -26,19 +26,19 @@ class Message {
       this.documentPath});
   factory Message.fromJson(Map<String, dynamic> json) => Message(
         id: json['Id'],
-        dateTime: json['DateTime'],
-        senderId: json['SenderId'],
-        text: json['Text'],
-        imagePath: json['ImagePath'],
-        videoPath: json['VideoPath'],
-        audioPath: json['AudioPath'],
-        documentPath: json['AudioPath'],
+        dateTime: json['datetime'],
+        senderId: json['sender_id'],
+        text: json['text'],
+        imagePath: json['image_path'],
+        videoPath: json['video_path'],
+        audioPath: json['audio_path'],
+        documentPath: json['audio_path'],
       );
   factory Message.fromInternalDB(Map<String, dynamic> data) => Message(
         id: data['id'],
         dateTime: data['datetime'],
         senderId: data['sender_id'],
-        text: data['text'],
+        text: data['text_content'],
         imagePath: data['image_path'],
         videoPath: data['video_path'],
         audioPath: data['audio_path'],
@@ -46,21 +46,21 @@ class Message {
       );
 
   Map<String, dynamic> toJson() => {
-        "Id": id,
-        "SenderId": senderId,
-        "DateTime": dateTime,
-        "Text": text,
-        "AudioPath": audioPath,
-        "DocumentPath": documentPath,
-        "ImagePath": imagePath,
-        "VideoPath": videoPath,
+        "id": id,
+        "sender_id": senderId,
+        "datetime": dateTime,
+        "text": text,
+        "audio_path": audioPath,
+        "document_path": documentPath,
+        "image_path": imagePath,
+        "video_path": videoPath,
       };
 
   Map<String, dynamic> toInternalDBMap() => {
         'id': id,
         'datetime': dateTime,
         'sender_id': senderId,
-        'text': text,
+        'text_content': text,
         'audio_path': audioPath,
         'document_path': documentPath,
         'image_path': imagePath,

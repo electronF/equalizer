@@ -10,6 +10,7 @@ Future<List<Message>> getData(List<Message> messages) async {
 Future<Message?> sendMessage(String message, String userId) async {
   //save message in internal database
   //send message to server
+  print("message:$message userId:$userId");
   Message messageObj = Message(
       text: message,
       senderId: userId,
@@ -17,7 +18,7 @@ Future<Message?> sendMessage(String message, String userId) async {
 
   var response = await apiService.sendMessage(messageObj);
   if (response.containsKey("object")) {
-    return messageFromJson(response["object"]);
+    return Message.fromJson(response['object']);
   } else if (response.containsKey("error")) {
     print(response["error"]);
   } else {

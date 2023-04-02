@@ -5,8 +5,9 @@ import 'package:mapiol/res/view/constants/colors.dart';
 import 'package:mapiol/res/view/uix/components/messageframe.dart';
 import 'package:mapiol/res/view/uix/components/messagegroup.dart';
 
-buildMessageGroup(List<Message> messages, String userId, String language) {
-  List<Widget> children = [];
+List<MessageGroup> buildMessageGroup(
+    List<Message> messages, String userId, String language) {
+  List<MessageGroup> children = [];
   messages.sort((a, b) =>
       DateTime.parse(a.dateTime).compareTo(DateTime.parse(b.dateTime)));
   List<Message> flagMessages = [];
@@ -49,5 +50,5 @@ buildMessageGroup(List<Message> messages, String userId, String language) {
     }
   }
 
-  return Column(mainAxisSize: MainAxisSize.max, children: children);
+  return children;
 }

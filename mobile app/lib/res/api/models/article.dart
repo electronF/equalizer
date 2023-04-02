@@ -25,14 +25,14 @@ class Article {
       required this.shortDescription,
       this.references = const []});
   factory Article.fromJson(Map<String, dynamic> json) => Article(
-      id: json['Id'],
-      title: json['Title'],
-      sourceName: json['SourceName'],
-      sourceLink: json['SourceLink'],
-      sourceImageLink: json['SourceImageLink'],
-      content: json['Content'],
-      shortDescription: json['ShortDescription'],
-      references: json['References'] ?? []);
+      id: json['id'],
+      title: json['title'],
+      sourceName: json['source_name'],
+      sourceLink: json['source_link'],
+      sourceImageLink: json['source_image_link'],
+      content: json['content'],
+      shortDescription: json['short_description'],
+      references: json['references'] ?? []);
   factory Article.fromInternalDB(Map<String, dynamic> data) => Article(
       id: data['id'],
       title: data['title'],
@@ -41,17 +41,17 @@ class Article {
       sourceImageLink: data['source_image_link'],
       content: data['content'],
       shortDescription: data['short_description'],
-      references: (data['references'] ?? "").split("&&&"));
+      references: (data['article_references'] ?? "").split("&&&"));
 
   Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Title": title,
-        "SourceName": sourceName,
-        "SourceLink": sourceLink,
-        "SourceImageLink": sourceImageLink,
-        "Content": content,
-        "ShortDescription": shortDescription,
-        "References": references
+        "id": id,
+        "title": title,
+        "source_name": sourceName,
+        "source_link": sourceLink,
+        "source_image_link": sourceImageLink,
+        "content": content,
+        "short_description": shortDescription,
+        "references": references
       };
 
   Map<String, dynamic> toInternalDBMap() => {
@@ -62,6 +62,6 @@ class Article {
         "source_image_link": sourceImageLink,
         "content": content,
         "short_description": shortDescription,
-        "references": references.join("&&&")
+        "article_references": references.join("&&&")
       };
 }

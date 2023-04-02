@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:mapiol/res/api/models/message.dart';
 
 class EndPoints {
+  String user = "user";
   String botMessage = "botmessage";
   String asset = "asset";
   String search = "search";
@@ -13,8 +14,31 @@ class EndPoints {
 }
 
 class ApiService {
-  String urlRoot = "https://10.0.2.2:8888/api/";
+  String urlRoot = "http://10.0.2.2:8888/api";
   EndPoints endPoints = EndPoints();
+
+  Future<Map<String, dynamic>> sendUserId(String userId) async {
+    var request = http.MultipartRequest(
+      "POST",
+      Uri.parse("$urlRoot/${endPoints.user}"),
+    );
+
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    request.headers.addAll(headers);
+
+    request.fields['user_id'] = userId;
+
+    var response = await http.Response.fromStream(await request.send());
+    try {
+      if (response.statusCode == 200) {
+        print(response.body);
+        return {"success": false, "object": jsonDecode(response.body)};
+      }
+    } catch (e) {
+      return {"success": false, "error": e};
+    }
+    return {"succes": false, "message": "Something append wrong in server"};
+  }
 
   Future<Map<String, dynamic>> sendMessage(Message message) async {
     var request = http.MultipartRequest(
@@ -27,7 +51,7 @@ class ApiService {
 
     Map<String, dynamic> dataObjet = message.toJson();
 
-    for (String key in ["DateTime", "SenderId", "Text"]) {
+    for (String key in ["datetime", "sender_id", "text"]) {
       request.fields[key] = dataObjet[key];
     }
 

@@ -1,0 +1,9 @@
+tornado
+asyncio
+sqlalchemy
+marshmallow
+marshmallow_sqlalchemy
+tornado_sqlalchemy
+flask_marshmallow 
+connexion
+openai

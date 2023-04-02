@@ -28,15 +28,15 @@ class Organization {
       this.contacts = const [],
       this.socialMedia = const []});
   factory Organization.fromJson(Map<String, dynamic> json) => Organization(
-      id: json['Id'],
-      name: json['Name'],
-      type: json['Type'],
-      image: json['Image'],
-      shortDescription: json['ShortDescription'],
-      fullDescription: json['FullDescription'],
-      adresses: json['Adresses'] ?? [],
-      contacts: json['Contacts'] ?? [],
-      socialMedia: json['SocialMedia'] ?? []);
+      id: json['id'],
+      name: json['name'],
+      type: json['type'],
+      image: json['image'],
+      shortDescription: json['short_description'],
+      fullDescription: json['full_description'],
+      adresses: json['adresses'] ?? [],
+      contacts: json['contacts'] ?? [],
+      socialMedia: json['social_media'] ?? []);
   factory Organization.fromInternalDB(Map<String, dynamic> data) =>
       Organization(
         id: data['id'],
@@ -51,15 +51,15 @@ class Organization {
       );
 
   Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
-        "Type": type,
-        "Image": image,
-        "ShortDescription": shortDescription,
-        "FullDescription": fullDescription,
-        "Adresses": adresses,
-        "Contacts": contacts,
-        "SocialMedia": socialMedia
+        "id": id,
+        "name": name,
+        "type": type,
+        "image": image,
+        "short_description": shortDescription,
+        "full_description": fullDescription,
+        "adresses": adresses,
+        "contacts": contacts,
+        "social_media": socialMedia
       };
 
   Map<String, dynamic> toInternalDBMap() => {

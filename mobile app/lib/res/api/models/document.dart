@@ -22,12 +22,12 @@ class Document {
     required this.shortDescription,
   });
   factory Document.fromJson(Map<String, dynamic> json) => Document(
-        id: json['Id'],
-        title: json['Title'],
-        type: json['Type'],
-        sourceLink: json['SourceLink'],
-        sourceImageLink: json['SourceImageLink'],
-        shortDescription: json['ShortDescription'],
+        id: json['id'],
+        title: json['title'],
+        type: json['type'],
+        sourceLink: json['source_link'],
+        sourceImageLink: json['source_image_link'],
+        shortDescription: json['short_description'],
       );
   factory Document.fromInternalDB(Map<String, dynamic> data) => Document(
         id: data['id'],
@@ -39,12 +39,12 @@ class Document {
       );
 
   Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Title": title,
-        "Type": type,
-        "SourceLink": sourceLink,
-        "SourceImageLink": sourceImageLink,
-        "ShortDescription": shortDescription,
+        "id": id,
+        "title": title,
+        "type": type,
+        "source_link": sourceLink,
+        "source_image_link": sourceImageLink,
+        "short_description": shortDescription,
       };
 
   Map<String, dynamic> toInternalDBMap() => {

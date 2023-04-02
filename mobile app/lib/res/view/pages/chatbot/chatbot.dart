@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapiol/res/api/database/database.dart';
 import 'package:mapiol/res/api/models/message.dart';
 import 'package:mapiol/res/utils/textfunctions.dart';
 import 'package:mapiol/res/view/constants/colors.dart';
@@ -30,12 +31,14 @@ class _ChatBotPageState extends State<ChatBotPage> {
   String _messageFieldText = '';
   // ignore: prefer_final_fields
   bool _isRecording = false;
+  FocusNode _focusNode = new FocusNode();
+  bool _isLoaded = false;
   var lang = en_lang.Lang();
 
   var border = const OutlineInputBorder(
       borderSide: BorderSide(width: 0, color: Colors.transparent),
       borderRadius: BorderRadius.all(Radius.circular(30)));
-  late Future<List<Message>> _messages;
+  List<Message> _messages = [];
 
   @override
   void initState() {
@@ -62,24 +65,12 @@ class _ChatBotPageState extends State<ChatBotPage> {
               padding: const EdgeInsets.all(10),
               width: double.infinity,
               child: SingleChildScrollView(
-                child: FutureBuilder(
-                  future: hooks.getData([]),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(
-                        "${snapshot.data!}",
-                        style:
-                            const TextStyle(color: textPrimary, fontSize: 12),
-                      );
-                    } else if (snapshot.hasData) {
-                      return buildMessageGroup(
-                          snapshot.data!, "", widget.language);
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
-              ),
+                  child: (_isLoaded == true)
+                      ? Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: buildMessageGroup(
+                              _messages, widget.userId, widget.language))
+                      : const SingleChildScrollView()),
             ),
           ),
           Container(
@@ -98,9 +89,13 @@ class _ChatBotPageState extends State<ChatBotPage> {
                               1.0,
                       child: TextFormField(
                         controller: _messageField,
+                        focusNode: _focusNode,
                         maxLines: 3,
                         textAlign: TextAlign.left,
                         onChanged: (value) => _messageFieldText = value,
+                        validator: (value) => (value!.trim().length > 0)
+                            ? null
+                            : "This field can be empty",
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: background,
@@ -179,10 +174,27 @@ class _ChatBotPageState extends State<ChatBotPage> {
   }
 
   _sendMessage() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    setState(() {
+      _messages = [for (var nmessage in _messages) nmessage];
+    });
     Message? message =
         await hooks.sendMessage(_messageFieldText, widget.userId);
     if (message != null) {
       //add to data base here
+      int response = await DBProvider.db.addMessage(message);
+      print("id:  $response");
+      setState(() {
+        _messages.add(message);
+      });
     }
+  }
+
+  _getAllMessage() async {
+    _messages.addAll(await DBProvider.db.getAllMessages());
+    setState(() {
+      _isLoaded = true;
+    });
   }
 }
