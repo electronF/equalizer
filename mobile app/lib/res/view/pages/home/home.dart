@@ -140,6 +140,7 @@ class _HomePageState extends State<HomePage> {
           MaterialPageRoute(
             builder: (context) => OrganizationPage(
               title: lang.helpGroup,
+              language: widget.language,
             ),
           ),
         );

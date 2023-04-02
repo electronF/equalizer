@@ -12,6 +12,7 @@ class Organization {
   String name;
   String shortDescription;
   String fullDescription;
+  String image;
   List<String> adresses;
   List<String> contacts;
   List<Map<String, String>> socialMedia;
@@ -20,6 +21,7 @@ class Organization {
       {this.id,
       required this.name,
       required this.type,
+      required this.image,
       required this.shortDescription,
       required this.fullDescription,
       this.adresses = const [],
@@ -29,6 +31,7 @@ class Organization {
       id: json['Id'],
       name: json['Name'],
       type: json['Type'],
+      image: json['Image'],
       shortDescription: json['ShortDescription'],
       fullDescription: json['FullDescription'],
       adresses: json['Adresses'] ?? [],
@@ -39,6 +42,7 @@ class Organization {
         id: data['id'],
         name: data['name'],
         type: data['type'],
+        image: data['image'],
         shortDescription: data['short_description'],
         fullDescription: data['full_description'],
         adresses: (data['adresses'] ?? "").split('&&&'),
@@ -50,6 +54,7 @@ class Organization {
         "Id": id,
         "Name": name,
         "Type": type,
+        "Image": image,
         "ShortDescription": shortDescription,
         "FullDescription": fullDescription,
         "Adresses": adresses,
@@ -61,6 +66,7 @@ class Organization {
         "id": id,
         "name": name,
         "type": type,
+        "image": image,
         "short_description": shortDescription,
         "full_description": fullDescription,
         "adresses": adresses,

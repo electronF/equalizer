@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mapiol/res/api/models/article.dart';
 import 'package:mapiol/res/api/models/document.dart';
-import 'package:mapiol/res/api/models/organization.dart';
 import 'package:mapiol/res/utils/textfunctions.dart';
 import 'package:mapiol/res/view/pages/articledisplayer/articledisplayer.dart';
-import 'package:mapiol/res/view/pages/orgizationdisplayer/organizationdisplayer.dart';
 import 'package:mapiol/res/view/uix/components/itemdescriptionframe.dart';
 
-List<ItemDescriptionFrame> buildRestultItems(
+List<ItemDescriptionFrame> buildAssetsList(
     List<dynamic> assets, String language, dynamic lang, BuildContext context) {
   List<ItemDescriptionFrame> children = [];
 
@@ -25,7 +23,7 @@ List<ItemDescriptionFrame> buildRestultItems(
           },
         ),
       );
-    } else if (asset.runtimeType == Article) {
+    } else if (assets.runtimeType == Article) {
       children.add(
         ItemDescriptionFrame(
           titleBarTitle: (asset as Article).sourceName,
@@ -51,36 +49,6 @@ List<ItemDescriptionFrame> buildRestultItems(
                   language: language,
                   references: (asset as Article).references,
                   // image: (asset as Article).image, Load base64 image here
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    } else if (asset.runtimeType == Organization) {
-      children.add(
-        ItemDescriptionFrame(
-          titleBarTitle: (asset as Organization).name,
-          titleBarSubtitle: (asset as Organization).type,
-          title: lang.objective,
-          textBody: (asset as Organization).shortDescription,
-          onTap: () {
-            var articleTitle =
-                "${(asset as Organization).name.substring(0, 15)}...";
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrganizationDisplayerPage(
-                  title: articleTitle,
-                  articleTitle: lang.objective,
-                  titleBarTitle: (asset as Organization).name,
-                  titleBarSubtitle: (asset as Organization).type,
-                  textBody: (asset as Organization).fullDescription,
-                  language: language,
-                  contacts: (asset as Organization).contacts,
-                  adresses: (asset as Organization).adresses,
-                  socialMedia: (asset as Organization).socialMedia,
-                  // image: organization.image, Load base64 image here
                 ),
               ),
             );

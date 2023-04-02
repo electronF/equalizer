@@ -13,7 +13,7 @@ class EndPoints {
 }
 
 class ApiService {
-  String urlRoot = "10.0.2.2:8888/api/";
+  String urlRoot = "https://10.0.2.2:8888/api/";
   EndPoints endPoints = EndPoints();
 
   Future<Map<String, dynamic>> sendMessage(Message message) async {

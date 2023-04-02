@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
   bool _isSearching = false;
 
   // ignore: avoid_init_to_null
-  Widget? searchResultItem = null;
+  List<Widget>? searchResultItem = null;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
                             color: Color(0xFF10655D),
                             borderRadius: BorderRadius.all(Radius.circular(8))),
                         child: MaterialButton(
-                          onPressed: null,
+                          onPressed: () => _search(_searchFieldText),
                           color: const Color(0xFF10655D),
                           textColor: background,
                           focusColor: primary,
@@ -148,9 +148,12 @@ class _SearchPageState extends State<SearchPage> {
     });
 
     var response = await hooks.getData(searchText);
-    searchResultItem = buildRestultItems(response, widget.language);
+    // ignore: use_build_context_synchronously
+    searchResultItem =
+        // ignore: use_build_context_synchronously
+        buildRestultItems(response, widget.language, lang, context);
     setState(() {
-      _isSearching = true;
+      _isSearching = false;
     });
   }
 
@@ -160,7 +163,7 @@ class _SearchPageState extends State<SearchPage> {
           padding: EdgeInsets.only(top: 10),
           child: CircularProgressIndicator());
     } else {
-      return searchResultItem;
+      return Column(children: searchResultItem ?? []);
     }
   }
 }

@@ -19,4 +19,5 @@ class Lang {
   String adress = "adress";
   String contact = "contact";
   String settings = "Settings";
+  String objective = "Objective";
 }
