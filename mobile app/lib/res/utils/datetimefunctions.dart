@@ -50,9 +50,9 @@ String toUTCDateTimeString(String isoDateTime, String language) {
 
   var dateTime = DateTime.parse(isoDateTime);
   if (language == 'en') {
-    return "${enWeekDays[dateTime.weekday - 1]}, ${dateTime.day} ${enMonths[dateTime.month - 1].toLowerCase()} ${dateTime.year}";
+    return "${enWeekDays[dateTime.weekday - 1]}, ${dateTime.day} ${enMonths[dateTime.month - 1].toLowerCase()} ${dateTime.year} at ${dateTime.hour}:${dateTime.minute}";
   } else {
-    return "${frWeekDays[dateTime.weekday - 1]}, ${dateTime.day} ${frMonths[dateTime.month - 1].toLowerCase()} ${dateTime.year}";
+    return "${frWeekDays[dateTime.weekday - 1]}, ${dateTime.day} ${frMonths[dateTime.month - 1].toLowerCase()} ${dateTime.year} à ${dateTime.hour}:${dateTime.minute}";
   }
 }
 

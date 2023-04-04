@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mapiol/res/api/database/database.dart';
 import 'package:mapiol/res/api/models/message.dart';
+import 'package:mapiol/res/utils/datetimefunctions.dart';
 import 'package:mapiol/res/utils/textfunctions.dart';
 import 'package:mapiol/res/view/constants/colors.dart';
 import 'package:mapiol/res/view/pages/chatbot/components/_buildmessagegroup.dart';
 import 'package:mapiol/res/view/pages/chatbot/hooks.dart' as hooks;
+import 'package:mapiol/res/view/uix/components/messageframe.dart';
 import 'package:mapiol/res/view/uix/modules/appbar.dart';
 import 'package:mapiol/res/view/lang/fr_fr.dart' as fr_lang;
 import 'package:mapiol/res/view/lang/fr_fr.dart' as en_lang;
@@ -34,11 +36,13 @@ class _ChatBotPageState extends State<ChatBotPage> {
   FocusNode _focusNode = new FocusNode();
   bool _isLoaded = false;
   var lang = en_lang.Lang();
+  String senderId = 'bot';
 
   var border = const OutlineInputBorder(
       borderSide: BorderSide(width: 0, color: Colors.transparent),
       borderRadius: BorderRadius.all(Radius.circular(30)));
   List<Message> _messages = [];
+  Message? _prevMessage;
 
   @override
   void initState() {
@@ -48,6 +52,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
       lang = fr_lang.Lang();
     }
 
+    print("isolated: $_isLoaded");
+    _getAllMessage();
     super.initState();
   }
 
@@ -64,13 +70,23 @@ class _ChatBotPageState extends State<ChatBotPage> {
               // height: MediaQuery.of(context).size.height,
               padding: const EdgeInsets.all(10),
               width: double.infinity,
-              child: SingleChildScrollView(
-                  child: (_isLoaded == true)
-                      ? Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: buildMessageGroup(
-                              _messages, widget.userId, widget.language))
-                      : const SingleChildScrollView()),
+              child: (_isLoaded == true)
+                  ? ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _messages.length,
+                      itemBuilder: (context, index) =>
+                          _displayMessageInStack(context, index))
+                  : Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 1.25,
+                      color: Colors.transparent,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 10,
+                          color: primaryDark,
+                        ),
+                      ),
+                    ),
             ),
           ),
           Container(
@@ -167,6 +183,52 @@ class _ChatBotPageState extends State<ChatBotPage> {
     }
   }
 
+  _displayMessageInStack(BuildContext context, int index) {
+    Row? row;
+
+    if (_messages[index].senderId.toLowerCase().trim() ==
+            widget.userId.toLowerCase().trim() ||
+        _prevMessage == null) {
+      row = Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MessageFrame(
+            textColor: textPrimary,
+            bgColor: background,
+            dateTime:
+                toUTCDateTimeString(_messages[index].dateTime, widget.language),
+            text: _messages[index].text,
+          )
+        ],
+      );
+    } else {
+      row = Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          MessageFrame(
+            textColor: background,
+            bgColor: primary,
+            dateTime:
+                toUTCDateTimeString(_messages[index].dateTime, widget.language),
+            text: _messages[index].text,
+          )
+        ],
+      );
+    }
+
+    _prevMessage = _messages[index];
+
+    if (_prevMessage?.senderId.toLowerCase().trim() !=
+        _messages[index].senderId.toLowerCase().trim()) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: row,
+      );
+    }
+
+    return row;
+  }
+
   _changeRecordingState() {
     setState(() {
       _isRecording = !_isRecording;
@@ -176,25 +238,43 @@ class _ChatBotPageState extends State<ChatBotPage> {
   _sendMessage() async {
     FocusManager.instance.primaryFocus?.unfocus();
 
+    Message sendMessage = Message(
+        senderId: widget.userId,
+        dateTime: DateTime.now().toIso8601String(),
+        text: _messageFieldText);
+    int id = await DBProvider.db.addMessage(sendMessage);
+    sendMessage.id = id;
     setState(() {
-      _messages = [for (var nmessage in _messages) nmessage];
+      _messages.add(sendMessage);
     });
+
     Message? message =
         await hooks.sendMessage(_messageFieldText, widget.userId);
     if (message != null) {
-      //add to data base here
-      int response = await DBProvider.db.addMessage(message);
-      print("id:  $response");
+      message.senderId = senderId;
+      int id = await DBProvider.db.addMessage(message);
+      message.id = id;
+
       setState(() {
         _messages.add(message);
       });
     }
+
+    _messageField.clear();
   }
 
   _getAllMessage() async {
-    _messages.addAll(await DBProvider.db.getAllMessages());
+    var messages = await DBProvider.db.getAllMessages();
+    _messages.addAll(messages);
+
+    // _messages.forEach(
+    //   (element) => print(element.toJson()),
+    // );
+
     setState(() {
       _isLoaded = true;
     });
+
+    // await DBProvider.db.deleteAllMessages();
   }
 }

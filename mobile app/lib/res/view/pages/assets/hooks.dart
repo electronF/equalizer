@@ -7,8 +7,11 @@ ApiService apiService = ApiService();
 
 Future<List<dynamic>> getData() async {
   var response1 = await apiService.getAssets();
-  List<dynamic> response2 = (await DBProvider.db.getAllArticles());
+  List<dynamic> response2 = [];
+
+  response2.addAll(await DBProvider.db.getAllArticles());
   response2.addAll(await DBProvider.db.getAllDocuments());
+
   List<dynamic> assets = [];
 
   Map<String, Map<String, dynamic>> assetsMap = {'document': {}, 'article': {}};

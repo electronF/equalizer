@@ -28,8 +28,8 @@ class ApiService {
 
     request.fields['user_id'] = userId;
 
-    var response = await http.Response.fromStream(await request.send());
     try {
+      var response = await http.Response.fromStream(await request.send());
       if (response.statusCode == 200) {
         print(response.body);
         return {"success": false, "object": jsonDecode(response.body)};
@@ -51,14 +51,15 @@ class ApiService {
 
     Map<String, dynamic> dataObjet = message.toJson();
 
-    for (String key in ["datetime", "sender_id", "text"]) {
-      request.fields[key] = dataObjet[key];
-    }
+    request.fields['data'] = json.encode({
+      'datatime': dataObjet['datetime'],
+      'sender_id': dataObjet['sender_id'],
+      'text': dataObjet['text']
+    });
 
-    var response = await http.Response.fromStream(await request.send());
     try {
+      var response = await http.Response.fromStream(await request.send());
       if (response.statusCode == 200) {
-        print(response.body);
         return {"success": false, "object": jsonDecode(response.body)};
       }
     } catch (e) {
@@ -76,8 +77,8 @@ class ApiService {
     Map<String, String> headers = {"Content-Type": "application/json"};
     request.headers.addAll(headers);
 
-    var response = await http.Response.fromStream(await request.send());
     try {
+      var response = await http.Response.fromStream(await request.send());
       if (response.statusCode == 200) {
         print(response.body);
         return {"success": true, "object": jsonDecode(response.body)};
@@ -96,11 +97,10 @@ class ApiService {
 
     Map<String, String> headers = {"Content-Type": "application/json"};
     request.headers.addAll(headers);
-
     request.fields["Query"] = searchText;
 
-    var response = await http.Response.fromStream(await request.send());
     try {
+      var response = await http.Response.fromStream(await request.send());
       if (response.statusCode == 200) {
         print(response.body);
         return {"success": true, "object": jsonDecode(response.body)};
@@ -120,8 +120,8 @@ class ApiService {
     Map<String, String> headers = {"Content-Type": "application/json"};
     request.headers.addAll(headers);
 
-    var response = await http.Response.fromStream(await request.send());
     try {
+      var response = await http.Response.fromStream(await request.send());
       if (response.statusCode == 200) {
         print(response.body);
         return {"success": true, "object": jsonDecode(response.body)};

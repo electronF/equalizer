@@ -26,7 +26,7 @@ class MessageFrame extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
       margin: const EdgeInsets.only(bottom: 3),
-      width: min(max(_textLineMaxLength(text ?? "") * 12, 75),
+      width: min(max(_textLineMaxLength(text ?? "") * 12, 180),
           MediaQuery.of(context).size.width - 75),
       decoration: BoxDecoration(
         color: bgColor,

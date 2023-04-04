@@ -10,7 +10,6 @@ Future<List<Message>> getData(List<Message> messages) async {
 Future<Message?> sendMessage(String message, String userId) async {
   //save message in internal database
   //send message to server
-  print("message:$message userId:$userId");
   Message messageObj = Message(
       text: message,
       senderId: userId,
