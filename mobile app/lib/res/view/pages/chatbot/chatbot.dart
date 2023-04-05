@@ -267,14 +267,10 @@ class _ChatBotPageState extends State<ChatBotPage> {
     var messages = await DBProvider.db.getAllMessages();
     _messages.addAll(messages);
 
-    // _messages.forEach(
-    //   (element) => print(element.toJson()),
-    // );
-
     setState(() {
       _isLoaded = true;
     });
 
-    // await DBProvider.db.deleteAllMessages();
+    await DBProvider.db.deleteAllMessages();
   }
 }
