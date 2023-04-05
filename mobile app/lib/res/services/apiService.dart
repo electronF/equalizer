@@ -14,7 +14,7 @@ class EndPoints {
 }
 
 class ApiService {
-  String urlRoot = "http://10.0.2.2:8888/api";
+  String urlRoot = "kuichua.pythonanywhere.com/api";
   EndPoints endPoints = EndPoints();
 
   Future<Map<String, dynamic>> sendUserId(String userId) async {
